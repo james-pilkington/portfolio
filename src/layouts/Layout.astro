@@ -6,33 +6,34 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro Basics</title>
+
+		<style>
+			html,
+			body {
+				margin: 0;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+        
+        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+        
+        <script>
+			if (window.netlifyIdentity) {
+				// This function detects the token in the URL and opens the widget.
+				window.netlifyIdentity.on("init", function(user) {
+					if (!user) {
+						// Only run this if the user is not logged in
+						if (document.location.hash.includes('invite_token')) {
+							// Open the widget when an invite token is detected in the URL
+							window.netlifyIdentity.open();
+						}
+					}
+				});
+			}
+		</script>
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-<script>
-  if (window.netlifyIdentity) {
-    // This function detects the token in the URL and opens the widget.
-    window.netlifyIdentity.on("init", function(user) {
-      if (!user) {
-        // Only run this if the user is not logged in
-        if (document.location.hash.includes('invite_token')) {
-          // Open the widget when an invite token is detected in the URL
-          window.netlifyIdentity.open();
-        }
-      }
-    });
-  }
-</script>
