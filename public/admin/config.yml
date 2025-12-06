@@ -1,0 +1,51 @@
+# 1. BACKEND: How Decap CMS connects to your Git repository (GitHub)
+backend:
+  name: git-gateway # Recommended for most hosting solutions (requires Netlify Identity setup or custom OAuth)
+  branch: main # Change this to your main branch name (e.g., main or master)
+
+# 2. MEDIA: Where images are saved
+# Decap will save uploaded images to the folder below (relative to project root).
+media_folder: "public/images/uploads" 
+
+# Decap will generate image public paths from this folder.
+# The URL path to access images (relative to site root).
+public_folder: "/images/uploads" 
+
+# 3. COLLECTIONS: Define your content types here
+collections:
+  # The "Pages" collection for static content (About, Contact, etc.)
+  - name: "pages"
+    label: "Site Pages"
+    files:
+      # Home Page fields
+      - label: "Homepage"
+        name: "home"
+        file: "src/content/singletons/home.md" # Single file for homepage content
+        fields:
+          - { label: "Hero Title", name: "hero_title", widget: "string" }
+          - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
+          - { label: "About Section Body", name: "about_body", widget: "markdown" }
+          # Add more fields for your homepage sections here...
+      
+      # About Page fields
+      - label: "About Page"
+        name: "about"
+        file: "src/content/singletons/about.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Profile Picture", name: "profile_image", widget: "image" }
+          - { label: "Bio", name: "body", widget: "markdown" }
+          
+  # The "Projects" collection for your portfolio items
+  - name: "projects"
+    label: "Portfolio Projects"
+    folder: "src/content/projects" # Decap saves files here (relative to project root)
+    create: true # Allow users to create new project entries
+    slug: "{{slug}}" # Creates filename based on the title field (e.g., 'my-cool-project.md')
+    fields:
+      - { label: "Project Title", name: "title", widget: "string", required: true }
+      - { label: "Project Date", name: "date", widget: "datetime" }
+      - { label: "Project Slug (URL part)", name: "slug", widget: "string" }
+      - { label: "Tags", name: "tags", widget: "list", field: { label: "Tag", name: "tag", widget: "string" } }
+      - { label: "Featured Image", name: "featured_image", widget: "image", required: true }
+      - { label: "Project Description", name: "body", widget: "markdown" }
