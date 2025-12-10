@@ -1,0 +1,142 @@
+---
+// src/components/Hero.astro
+// No JavaScript or data fetching in the code fence—it's pure static!
+---
+
+<section id="hero" class="hero-section">
+    <div class="hero-header">
+        <h1 class="name">JAMES PILKINGTON</h1>
+        <p class="title">Client-Obsessed Product & Implementation Leader</p>
+    </div>
+
+    <div class="contact-info">
+        <h2 class="section-title">Connect with Me</h2>
+        <ul class="contact-list">
+            <li>
+                <span class="label">Phone:</span>
+                <a href="tel:6174538734">617-453-8734</a>
+            </li>
+            <li>
+                <span class="label">Email:</span>
+                <a href="mailto:The.James.Pilkington@gmail.com">The.James.Pilkington@gmail.com</a>
+            </li>
+            <li>
+                <span class="label">Location:</span>
+                Boston, MA
+            </li>
+            <li>
+                <span class="label">LinkedIn:</span>
+                <a href="https://www.linkedin.com/in/jamespilkington1" target="_blank" rel="noopener noreferrer">
+                    Connect on LinkedIn
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <hr class="divider">
+
+    <div class="introduction">
+        <h2>Hello! I'm James</h2>
+        
+        <p>Welcome to my resume website! Here, you'll find key highlights of my experience, the tools I excel with, professional references, and a portfolio of my work. For a more in-depth look, visit my LinkedIn. </p>
+
+        <p>I’m a **results-driven player-coach Manager** with a passion for product and customer experience. With over 15 years of experience in client-facing technical roles—five of which have been increasingly focused on product management—I specialize in leading teams, driving product success, and delivering impactful results.</p>
+        
+        <p>I thrive on collaborating with both internal and external stakeholders, ensuring solutions align closely with client needs and use cases. Known for my ability to quickly grasp technical concepts, I leverage my skills to empower teams and drive success with energy and enthusiasm. Having worked in diverse cultural settings, I’ve developed strong communication and adaptability skills, enabling me to engage effectively with a wide range of audiences. Take a look around to learn more about my work!</p>
+    </div>
+
+</section>
+
+<style>
+/* 🎨 Basic Styling to make it look organized */
+
+.hero-section {
+    max-width: 900px;
+    margin: 4rem auto;
+    padding: 2rem;
+    font-family: sans-serif; /* Use your desired portfolio font here */
+}
+
+.hero-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+}
+
+.name {
+    font-size: 3em;
+    font-weight: 900;
+    color: #111;
+    margin: 0 0 0.25rem 0;
+}
+
+.title {
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #555;
+    margin: 0;
+}
+
+.contact-info {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.2em;
+    color: #333;
+    border-bottom: 1px dashed #ccc;
+    display: inline-block;
+    padding-bottom: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem; /* Vertical and horizontal gap */
+}
+
+.contact-list li {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-weight: 700;
+    color: #333;
+    font-size: 0.9em;
+    margin-bottom: 0.25rem;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 2rem 0;
+}
+
+.introduction h2 {
+    font-size: 2em;
+    color: #333;
+    margin-top: 0;
+}
+
+.introduction p {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.introduction strong {
+    color: #007bff; /* Use your brand color for emphasis */
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+</style>

@@ -1,51 +1,110 @@
-# 1. BACKEND: How Decap CMS connects to your Git repository (GitHub)
+# public/admin/config.yml
+
 backend:
-  name: git-gateway # Recommended for most hosting solutions (requires Netlify Identity setup or custom OAuth)
-  branch: main # Change this to your main branch name (e.g., main or master)
+  name: git-gateway
+  branch: main 
 
-# 2. MEDIA: Where images are saved
-# Decap will save uploaded images to the folder below (relative to project root).
 media_folder: "public/images/uploads" 
-
-# Decap will generate image public paths from this folder.
-# The URL path to access images (relative to site root).
 public_folder: "/images/uploads" 
 
-# 3. COLLECTIONS: Define your content types here
 collections:
-  # The "Pages" collection for static content (About, Contact, etc.)
-  - name: "pages"
-    label: "Site Pages"
-    files:
-      # Home Page fields
-      - label: "Homepage"
-        name: "home"
-        file: "src/content/singletons/home.md" # Single file for homepage content
-        fields:
-          - { label: "Hero Title", name: "hero_title", widget: "string" }
-          - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
-          - { label: "About Section Body", name: "about_body", widget: "markdown" }
-          # Add more fields for your homepage sections here...
-      
-      # About Page fields
-      - label: "About Page"
-        name: "about"
-        file: "src/content/singletons/about.md"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Profile Picture", name: "profile_image", widget: "image" }
-          - { label: "Bio", name: "body", widget: "markdown" }
-          
-  # The "Projects" collection for your portfolio items
+  # The PROJECTS Collection (for individual portfolio items)
   - name: "projects"
     label: "Portfolio Projects"
-    folder: "src/content/projects" # Decap saves files here (relative to project root)
-    create: true # Allow users to create new project entries
-    slug: "{{slug}}" # Creates filename based on the title field (e.g., 'my-cool-project.md')
+    folder: "src/content/projects"
+    create: true
+    slug: "{{slug}}"
     fields:
       - { label: "Project Title", name: "title", widget: "string", required: true }
-      - { label: "Project Date", name: "date", widget: "datetime" }
       - { label: "Project Slug (URL part)", name: "slug", widget: "string" }
+      - { label: "Date Completed", name: "date", widget: "datetime" }
+      - { label: "Featured Image", name: "featured_image", widget: "image" }
       - { label: "Tags", name: "tags", widget: "list", field: { label: "Tag", name: "tag", widget: "string" } }
-      - { label: "Featured Image", name: "featured_image", widget: "image", required: true }
-      - { label: "Project Description", name: "body", widget: "markdown" }
+      - { label: "Is Featured?", name: "is_featured", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown" } # For the full project page description
+      
+  # The SINGLETONS Collection (For main page sections)
+  - name: "singletons"
+    label: "Main Page Content"
+    files:
+      # a) HERO SECTION
+      - # HERO SECTION & CORE INFO
+      - label: "Homepage Hero & Core Info"
+        name: "home"
+        file: "src/content/singletons/home.md"
+        fields:
+          # A. IDENTITY & TITLE
+          - { label: "Full Name", name: "full_name", widget: "string", required: true }
+          - { label: "Professional Title", name: "pro_title", widget: "string", required: true, hint: "e.g., Client-Obsessed Product & Implementation Leader" }
+          
+          # B. CONTACT INFORMATION (Allows easy updates)
+          - { label: "Phone Number", name: "phone", widget: "string", hint: "Only digits (e.g., 6174538734)" }
+          - { label: "Email Address", name: "email", widget: "string" }
+          - { label: "Location", name: "location", widget: "string", hint: "e.g., Boston, MA" }
+          - { label: "LinkedIn URL", name: "linkedin_url", widget: "string", hint: "Full URL to your profile" }
+          
+          # C. INTRODUCTION / ABOUT SECTION
+          - { label: "Headline (Hello! I'm James)", name: "intro_headline", widget: "string" }
+          - { label: "Introductory Body", name: "intro_body", widget: "markdown", required: true, hint: "This should contain the bulk of your bio text." }
+          
+          # D. Optional: Profile Image
+          - { label: "Profile Image", name: "profile_image", widget: "image", required: false, hint: "Used for the Hero section." }
+      
+      # b) CAREER HIGHLIGHTS (Timeline)
+      - label: "Career Timeline"
+        name: "career"
+        file: "src/content/singletons/career.md"
+        fields:
+          - label: "Job Entries"
+            name: "jobs"
+            widget: "list"
+            fields:
+              - { label: "Job Title", name: "title", widget: "string" }
+              - { label: "Company", name: "company", widget: "string" }
+              - { label: "Duration", name: "duration", widget: "string", hint: "e.g., Aug 2020 - Present" }
+              - { label: "Description", name: "description", widget: "markdown" }
+              - { label: "Full Resume Link", name: "full_resume_link", widget: "string", hint: "Optional link to full document" }
+              
+      # c) SKILLS
+      - label: "Skills"
+        name: "skills"
+        file: "src/content/singletons/skills.md"
+        fields:
+          - label: "Skill Groups"
+            name: "skill_groups"
+            widget: "list"
+            fields:
+              - { label: "Group Name", name: "group_name", widget: "string", hint: "e.g., Backend, Frontend, Cloud" }
+              - label: "Skills List"
+                name: "list"
+                widget: "list"
+                field: { label: "Skill", name: "skill", widget: "string" }
+              
+      # d) EDUCATION & CERTS
+      - label: "Education & Certifications"
+        name: "education"
+        file: "src/content/singletons/education.md"
+        fields:
+          - label: "Education Entries"
+            name: "education_entries"
+            widget: "list"
+            fields:
+              - { label: "Institution", name: "institution", widget: "string" }
+              - { label: "Degree/Certification", name: "degree", widget: "string" }
+              - { label: "Year Completed", name: "year", widget: "string" }
+          - label: "Certifications List"
+            name: "certifications"
+            widget: "list"
+            field: { label: "Certification", name: "cert", widget: "string" }
+
+      # e) TESTIMONIALS
+      - label: "Testimonials"
+        name: "testimonials"
+        file: "src/content/singletons/testimonials.md"
+        fields:
+          - label: "Testimonial Entries"
+            name: "testimonials_list"
+            widget: "list"
+            fields:
+              - { label: "Quote Body", name: "quote", widget: "text" }
+              - { label: "Source/Name", name: "source", widget: "string" }
