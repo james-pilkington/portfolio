@@ -8,7 +8,7 @@ media_folder: "public/images/uploads"
 public_folder: "/images/uploads" 
 
 collections:
-  # The PROJECTS Collection (for individual portfolio items)
+  # 1. PORTFOLIO PROJECTS (Folder-based collection - Already correct)
   - name: "projects"
     label: "Portfolio Projects"
     folder: "src/content/projects"
@@ -21,39 +21,35 @@ collections:
       - { label: "Featured Image", name: "featured_image", widget: "image" }
       - { label: "Tags", name: "tags", widget: "list", field: { label: "Tag", name: "tag", widget: "string" } }
       - { label: "Is Featured?", name: "is_featured", widget: "boolean", default: false }
-      - { label: "Body", name: "body", widget: "markdown" } # For the full project page description
+      - { label: "Body", name: "body", widget: "markdown" } 
       
-  # The SINGLETONS Collection (For main page sections)
-  - name: "singletons"
-    label: "Main Page Content"
+  # 2. HOMEPAGE SINGLETONS (New, Separate Collections for Sidebar Tabs)
+  
+  # A. HERO / CORE INFO
+  - name: "home" # New Collection Name (must match config.ts)
+    label: "A. Hero & Contact Info"
     files:
-      # a) HERO SECTION
-      - # HERO SECTION & CORE INFO
-      - label: "Homepage Hero & Core Info"
-        name: "home"
-        file: "src/content/singletons/home.md"
+      - label: "Edit Hero & Contact"
+        name: "home_data"
+        file: "src/content/home/home.md" # NOTE: Changed path to match single folder and file name
         fields:
-          # A. IDENTITY & TITLE
           - { label: "Full Name", name: "full_name", widget: "string", required: true }
           - { label: "Professional Title", name: "pro_title", widget: "string", required: true, hint: "e.g., Client-Obsessed Product & Implementation Leader" }
-          
-          # B. CONTACT INFORMATION (Allows easy updates)
-          - { label: "Phone Number", name: "phone", widget: "string", hint: "Only digits (e.g., 6174538734)" }
+          - { label: "Phone Number", name: "phone", widget: "string" }
           - { label: "Email Address", name: "email", widget: "string" }
-          - { label: "Location", name: "location", widget: "string", hint: "e.g., Boston, MA" }
-          - { label: "LinkedIn URL", name: "linkedin_url", widget: "string", hint: "Full URL to your profile" }
-          
-          # C. INTRODUCTION / ABOUT SECTION
+          - { label: "Location", name: "location", widget: "string" }
+          - { label: "LinkedIn URL", name: "linkedin_url", widget: "string" }
           - { label: "Headline (Hello! I'm James)", name: "intro_headline", widget: "string" }
-          - { label: "Introductory Body", name: "intro_body", widget: "markdown", required: true, hint: "This should contain the bulk of your bio text." }
-          
-          # D. Optional: Profile Image
-          - { label: "Profile Image", name: "profile_image", widget: "image", required: false, hint: "Used for the Hero section." }
+          - { label: "Introductory Body", name: "intro_body", widget: "markdown", required: true }
+          - { label: "Profile Image", name: "profile_image", widget: "image" }
       
-      # b) CAREER HIGHLIGHTS (Timeline)
-      - label: "Career Timeline"
-        name: "career"
-        file: "src/content/singletons/career.md"
+  # B. CAREER HIGHLIGHTS (Timeline)
+  - name: "career"
+    label: "B. Career Timeline"
+    files:
+      - label: "Edit Career Entries"
+        name: "career_data"
+        file: "src/content/career/career.md" # NOTE: Changed path to single folder
         fields:
           - label: "Job Entries"
             name: "jobs"
@@ -61,29 +57,35 @@ collections:
             fields:
               - { label: "Job Title", name: "title", widget: "string" }
               - { label: "Company", name: "company", widget: "string" }
-              - { label: "Duration", name: "duration", widget: "string", hint: "e.g., Aug 2020 - Present" }
+              - { label: "Duration", name: "duration", widget: "string" }
               - { label: "Description", name: "description", widget: "markdown" }
-              - { label: "Full Resume Link", name: "full_resume_link", widget: "string", hint: "Optional link to full document" }
+              - { label: "Full Resume Link", name: "full_resume_link", widget: "string" }
               
-      # c) SKILLS
-      - label: "Skills"
-        name: "skills"
-        file: "src/content/singletons/skills.md"
+  # C. SKILLS
+  - name: "skills"
+    label: "C. Skills & Tools"
+    files:
+      - label: "Edit Skill Groups"
+        name: "skills_data"
+        file: "src/content/skills/skills.md" # NOTE: Changed path to single folder
         fields:
           - label: "Skill Groups"
             name: "skill_groups"
             widget: "list"
             fields:
-              - { label: "Group Name", name: "group_name", widget: "string", hint: "e.g., Backend, Frontend, Cloud" }
+              - { label: "Group Name", name: "group_name", widget: "string" }
               - label: "Skills List"
                 name: "list"
                 widget: "list"
                 field: { label: "Skill", name: "skill", widget: "string" }
               
-      # d) EDUCATION & CERTS
-      - label: "Education & Certifications"
-        name: "education"
-        file: "src/content/singletons/education.md"
+  # D. EDUCATION & CERTS
+  - name: "education"
+    label: "D. Education & Certs"
+    files:
+      - label: "Edit Education/Cert Entries"
+        name: "education_data"
+        file: "src/content/education/education.md" # NOTE: Changed path to single folder
         fields:
           - label: "Education Entries"
             name: "education_entries"
@@ -97,10 +99,13 @@ collections:
             widget: "list"
             field: { label: "Certification", name: "cert", widget: "string" }
 
-      # e) TESTIMONIALS
-      - label: "Testimonials"
-        name: "testimonials"
-        file: "src/content/singletons/testimonials.md"
+  # E. TESTIMONIALS
+  - name: "testimonials"
+    label: "E. Testimonials"
+    files:
+      - label: "Edit Testimonials List"
+        name: "testimonials_data"
+        file: "src/content/testimonials/testimonials.md" # NOTE: Changed path to single folder
         fields:
           - label: "Testimonial Entries"
             name: "testimonials_list"
