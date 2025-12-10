@@ -20,7 +20,7 @@ const projectCollection = defineCollection({
 
 // A. HOME & CONTACT INFO (Hero Section Data)
 const homeCollection = defineCollection({
-    type: 'data', // Assuming you use JSON/YAML for data files
+    type: 'content', // Assuming you use JSON/YAML for data files
     schema: ({ image }) => z.object({
         // Fields matching the Hero section's static content
         full_name: z.string().max(100),
