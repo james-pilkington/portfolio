@@ -10,7 +10,7 @@ public_folder: "/images/uploads"
 collections:
   # 1. PORTFOLIO PROJECTS (Folder-based collection - Already correct)
   - name: "projects"
-    label: "Portfolio Projects"
+    label: "Portfolio Projects!"
     folder: "src/content/projects"
     create: true
     slug: "{{slug}}"
