@@ -1,11 +1,37 @@
 ---
 // src/components/Hero.astro
-// No JavaScript or data fetching in the code fence—it's pure static!
+import { getEntry } from 'astro:content';
+
+// 1. Fetch the data
+const homeEntry = await getEntry('home', 'home');
+
+if (!homeEntry) {
+    throw new Error('Home page content (home.md) not found in the "home" collection.');
+}
+
+// 2. Extract the data
+const data = homeEntry.data;
+// You aren't using Content yet (since you're doing bio static), but it's fine to leave here
+const { Content } = await homeEntry.render(); 
+
+const {
+    full_name, 
+    // You can leave these destructured variables here, 
+    // or comment them out until you are ready to use them in the HTML below.
+    pro_title, 
+    phone, 
+    email, 
+    location, 
+    linkedin_url, 
+    intro_headline, 
+    profile_image
+} = data;
 ---
 
 <section id="hero" class="hero-section">
     <div class="hero-header">
-        <h1 class="name">JAMES PILKINGTON</h1>
+        <h1 class="name">{full_name || "NAME MISSING"}</h1>
+        
         <p class="title">Client-Obsessed Product & Implementation Leader</p>
     </div>
 
@@ -46,9 +72,6 @@
     </div>
 
     <hr class="divider">
-
-
-
 </section>
 
 <style>
