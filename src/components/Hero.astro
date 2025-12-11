@@ -8,31 +8,36 @@ const homeEntry = await getEntry('home', 'home');
 if (!homeEntry) {
     throw new Error('Home page content (home.md) not found in the "home" collection.');
 }
-
-// 2. Extract the data
 const data = homeEntry.data;
-// You aren't using Content yet (since you're doing bio static), but it's fine to leave here
-const { Content } = await homeEntry.render(); 
 
 const {
     full_name, 
-    // You can leave these destructured variables here, 
-    // or comment them out until you are ready to use them in the HTML below.
     pro_title, 
     phone, 
     email, 
     location, 
     linkedin_url, 
     intro_headline, 
-    profile_image
+    profile_image,
+    highlights
 } = data;
 ---
 
 <section id="hero" class="hero-section">
+
+    {profile_image && (
+        <div class="profile-image-container">
+            <img 
+                src={profile_image} 
+                alt={`Profile picture of ${full_name}`} 
+                class="profile-img"
+            />
+        </div>
+    )}
+
     <div class="hero-header">
         <h1 class="name">{full_name || "NAME MISSING"}</h1>
-        
-        <p class="title">Client-Obsessed Product & Implementation Leader</p>
+        <p class="title">{pro_title || "TITLE MISSING"}</p>
     </div>
 
     <div class="contact-info">
@@ -40,19 +45,19 @@ const {
         <ul class="contact-list">
             <li>
                 <span class="label">Phone:</span>
-                <a href="tel:6174538734">617-453-8734</a>
+                <a href={`tel:${phone}`}>{phone || "N/A"}</a>
             </li>
             <li>
                 <span class="label">Email:</span>
-                <a href="mailto:The.James.Pilkington@gmail.com">The.James.Pilkington@gmail.com</a>
+                <a href={`mailto:${email}`}>{email || "N/A"}</a>
             </li>
             <li>
                 <span class="label">Location:</span>
-                Boston, MA
+                {location || "NAME MISSING"}
             </li>
             <li>
                 <span class="label">LinkedIn:</span>
-                <a href="https://www.linkedin.com/in/jamespilkington1" target="_blank" rel="noopener noreferrer">
+                <a href={linkedin_url || "#"} target="_blank" rel="noopener noreferrer">
                     Connect on LinkedIn
                 </a>
             </li>
@@ -62,7 +67,7 @@ const {
     <hr class="divider">
 
     <div class="introduction">
-        <h2>Hello! I'm James</h2>
+        <h2>{intro_headline || "Hello! I'm James"}</h2>
         
         <p>Welcome to my resume website! Here, you'll find key highlights of my experience, the tools I excel with, professional references, and a portfolio of my work. For a more in-depth look, visit my LinkedIn. </p>
 
@@ -72,6 +77,19 @@ const {
     </div>
 
     <hr class="divider">
+
+    {highlights && (
+        <div class="highlights-grid">
+            {highlights.map((card) => (
+                <div class="highlight-card">
+                    <span class="card-icon">{card.icon}</span>
+                    <h3 class="card-value">{card.value}</h3>
+                    <p class="card-title">{card.title}</p>
+                </div>
+            ))}
+        </div>
+    )}
+
 </section>
 
 <style>
@@ -81,7 +99,21 @@ const {
     max-width: 900px;
     margin: 4rem auto;
     padding: 2rem;
-    font-family: sans-serif; /* Use your desired portfolio font here */
+    font-family: sans-serif; 
+}
+
+/* Added styling for the profile image */
+.profile-image-container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #007bff;
 }
 
 .hero-header {
@@ -122,7 +154,7 @@ const {
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem 2.5rem; /* Vertical and horizontal gap */
+    gap: 1.5rem 2.5rem; 
 }
 
 .contact-list li {
@@ -155,7 +187,7 @@ const {
 }
 
 .introduction strong {
-    color: #007bff; /* Use your brand color for emphasis */
+    color: #007bff; 
 }
 
 a {
@@ -166,4 +198,52 @@ a:hover {
     text-decoration: underline;
 }
 
+
+/* NEW Styles for Cards */
+.highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.highlight-card {
+    background: #f8f9fa;
+    border: 1px solid #eee;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.highlight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.card-value {
+    font-size: 2.5em;
+    font-weight: 800;
+    color: #007bff;
+    margin: 0;
+}
+
+.card-title {
+    font-size: 1rem;
+    color: #555;
+    margin: 0.5rem 0 0 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 </style>
+

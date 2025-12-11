@@ -43,6 +43,15 @@ collections:
           - { label: "Headline (Hello! I'm James)", name: "intro_headline", widget: "string" }
           - { label: "Introductory Body", name: "intro_body", widget: "markdown", required: true }
           - { label: "Profile Image", name: "profile_image", widget: "image" }
+          - label: "Highlight Cards"
+        name: "highlights"
+        widget: "list"
+        fields:
+          - { label: "Title", name: "title", widget: "string", hint: "e.g., Years Experience" }
+          - { label: "Value", name: "value", widget: "string", hint: "e.g., 15+" }
+          - { label: "Icon/Emoji", name: "icon", widget: "string", required: false, hint: "e.g., 🚀" }
+      
+
       
   # B. CAREER HIGHLIGHTS (Timeline)
   - name: "career"

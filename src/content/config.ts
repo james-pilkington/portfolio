@@ -32,7 +32,14 @@ const homeCollection = defineCollection({
         
         intro_headline: z.string().optional(),
         intro_body: z.string(), // Use string for Markdown text body
-        profile_image: image().optional(),
+        profile_image: z.string().optional(),
+
+        // NEW: Array for the cards
+        highlights: z.array(z.object({
+            title: z.string(),
+            value: z.string(),
+            icon: z.string().optional(),
+        })).optional(),
     }),
 });
 
