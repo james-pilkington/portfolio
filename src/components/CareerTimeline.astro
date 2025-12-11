@@ -1,0 +1,208 @@
+---
+// src/components/CareerTimeline.astro
+import { getEntry } from 'astro:content';
+
+// 1. Fetch the data
+const careerEntry = await getEntry('career', 'career');
+
+// Safety check
+if (!careerEntry) {
+    throw new Error('career page content (career.md) not found in the "career" collection.');
+}
+
+const jobs = careerEntry.data.jobs;
+---
+
+<section id="career" class="career-section">
+    <div class="section-header">
+        <h2 class="section-title">Career History</h2>
+        <p class="section-subtitle">A timeline of my professional growth & impact.</p>
+    </div> 
+
+    <div class="timeline-stack">
+        {jobs.map((job, index) => (
+            /* Dynamic Style Calculation: 
+               We increase the 'top' value for each card. 
+               Card 0 sticks at 80px, Card 1 at 100px, etc.
+               This creates the visible "stack" effect where you see the headers of previous cards.
+            */
+            <div class="career-card" style={`top: calc(5rem + ${index * 1.5}rem);`}>
+                
+                <div class="card-header">
+                    <div class="company-info">
+
+                        <div>
+                            <h3 class="company-name">{job.company}</h3>
+                            <span class="dates">{job.from} — {job.to}</span>
+                        </div>
+                    </div>
+                    <div class="role-info">
+                        <h4 class="job-title">{job.title}</h4>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    {/* Render the Description */}
+                    {job.description && (
+                        <p class="description">{job.description}</p>
+                    )}
+
+                    {/* Render the Bullets */}
+                    {job.bullets && job.bullets.length > 0 && (
+                        <ul class="achievements-list">
+                            {job.bullets.map((bullet) => (
+                                <li>{bullet}</li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            </div>
+        ))}
+    </div>
+</section>
+
+<style>
+/* 🎨 Layout & Spacing */
+.career-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+    position: relative;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* 🃏 The Stacking Card Magic */
+.timeline-stack {
+    position: relative;
+    /* Sufficient padding at bottom ensures the last card has scroll space */
+    padding-bottom: 4rem; 
+}
+
+.career-card {
+    position: sticky; /* The magic property */
+    background: white;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 4rem; /* Space between cards in natural flow */
+    box-shadow: 
+        0 -1px 3px rgba(0,0,0,0.02), /* Slight top shadow for stacking depth */
+        0 10px 40px -10px rgba(0,0,0,0.1);
+    
+    /* Ensure cards cover the ones beneath them properly */
+    transform-origin: center top;
+    transition: transform 0.3s ease;
+}
+
+/* Optional: Slight hover lift */
+.career-card:hover {
+    transform: translateY(-5px);
+}
+
+/* 🖼️ Card Content Styling */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.company-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.company-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #f9f9f9;
+    padding: 4px;
+}
+
+.company-name {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.dates {
+    display: block;
+    font-size: 0.85rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.25rem;
+}
+
+.job-title {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #007bff; /* Use your brand color */
+    background: rgba(0, 123, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-weight: 600;
+}
+
+.description {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.achievements-list {
+    padding-left: 1.25rem;
+}
+
+.achievements-list li {
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+    color: #555;
+    position: relative;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-header {
+        flex-direction: column;
+    }
+    
+    .role-info {
+        width: 100%;
+    }
+    
+    .job-title {
+        display: inline-block;
+    }
+    
+    .career-card {
+        padding: 1.5rem;
+    }
+}
+</style>
