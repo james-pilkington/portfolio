@@ -45,14 +45,16 @@ const homeCollection = defineCollection({
 
 // B. CAREER HIGHLIGHTS (Timeline)
 const careerCollection = defineCollection({
-    type: 'data',
+    type: 'content',
     schema: z.object({
         jobs: z.array(z.object({
             title: z.string(),
             company: z.string(),
-            duration: z.string(),
+            from: z.string(),
+            to: z.string(),
             description: z.string().optional(),
-            full_resume_link: z.string().url().optional(), 
+            bullets: z.array(z.string()).optional(),
+            logo_image: z.string().optional(),
         })).optional(),
     }),
 });

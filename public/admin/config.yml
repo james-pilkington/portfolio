@@ -59,7 +59,7 @@ collections:
     files:
       - label: "Edit Career Entries"
         name: "career_data"
-        file: "src/content/career/career.md" # NOTE: Changed path to single folder
+        file: "src/content/career/career.md"
         fields:
           - label: "Job Entries"
             name: "jobs"
@@ -67,9 +67,18 @@ collections:
             fields:
               - { label: "Job Title", name: "title", widget: "string" }
               - { label: "Company", name: "company", widget: "string" }
-              - { label: "Duration", name: "duration", widget: "string" }
-              - { label: "Description", name: "description", widget: "markdown" }
-              - { label: "Full Resume Link", name: "full_resume_link", widget: "string" }
+              - { label: "Start Date", name: "from", widget: "string" }
+              - { label: "End Date", name: "to", widget: "string" }
+              - { label: "Short Description", name: "description", widget: "markdown", required: false }
+              
+              # MATCHING THE SIMPLIFIED BULLETS:
+              - label: "Key Achievements (Bullets)"
+                name: "bullets"
+                widget: "list"
+                # When using a list of strings, use 'field' (singular), not 'fields'
+                field: { label: "Bullet Point", name: "bullet", widget: "string" }
+              
+              - { label: "Company Logo", name: "logo_image", widget: "image", required: false }
               
   # C. SKILLS
   - name: "skills"
