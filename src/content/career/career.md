@@ -42,7 +42,7 @@ jobs:
         fit through market research and channel partner collaborations.
       - "Ownership of API strategy, working cross-functionally to ensure a
         scalable and profitable business unit "
-    logo_image: /images/uploads/monotype_imaging_2019_logo.svg.png
+    logo_image: /images/uploads/monotype.png
   - title: Enterprise Consultant II  - Product Operations Focus |
     company: Funnel Leasing
     from: Jul 2025

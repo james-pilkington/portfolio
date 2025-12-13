@@ -79,6 +79,11 @@ collections:
                 field: { label: "Bullet Point", name: "bullet", widget: "string" }
               
               - { label: "Company Logo", name: "logo_image", widget: "image", required: false }
+              - label: "Full Resume PDF"
+                name: "resume_pdf"
+                widget: "file"
+                required: false
+                hint: "Upload your PDF resume here"
               
   # C. SKILLS
   - name: "skills"
@@ -110,6 +115,7 @@ collections:
             name: "education_entries"
             widget: "list"
             fields:
+              - { label: "Type (Edu/Cert)", name: "type", widget: "string" }
               - { label: "Institution", name: "institution", widget: "string" }
               - { label: "Degree/Certification", name: "degree", widget: "string" }
               - { label: "Year Completed", name: "year", widget: "string" }

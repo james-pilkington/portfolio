@@ -3,21 +3,23 @@ import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro'; // Import the new component
 import Career from '../components/CareerTimeline.astro'; // Import the new component
+import Testimonials from '../components/Testimonials.astro'; // Import new component
+import Education from '../components/Education.astro'; // Import new component
 // ... other imports (e.g., getCollection for projects)
 
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
-
+//	<Welcome />
+ //   <main>     
+ //       </main>
 ---
 
 <Layout>
-	<Welcome />
+    <Welcome />
 	<Hero />
-    <Career>
-    <main>
-
-
-        
-        </main>
+    <Career />
+    <Testimonials />
+    <Education />
 </Layout>
+

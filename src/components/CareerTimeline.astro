@@ -2,207 +2,189 @@
 // src/components/CareerTimeline.astro
 import { getEntry } from 'astro:content';
 
-// 1. Fetch the data
 const careerEntry = await getEntry('career', 'career');
+if (!careerEntry) throw new Error('Career data not found');
 
-// Safety check
-if (!careerEntry) {
-    throw new Error('career page content (career.md) not found in the "career" collection.');
-}
+// Extract jobs AND the new resume_pdf field
+const { jobs, resume_pdf } = careerEntry.data;
 
-const jobs = careerEntry.data.jobs;
+const cardColors = ['#ffffff', '#f0f9ff', '#fdf4ff', '#f0fdf4', '#fffbeb'];
 ---
 
 <section id="career" class="career-section">
     <div class="section-header">
-        <h2 class="section-title">Career History</h2>
+        <h2 class="section-title">Career Highlights</h2>
         <p class="section-subtitle">A timeline of my professional growth & impact.</p>
-    </div> 
+    </div>
 
     <div class="timeline-stack">
-        {jobs.map((job, index) => (
-            /* Dynamic Style Calculation: 
-               We increase the 'top' value for each card. 
-               Card 0 sticks at 80px, Card 1 at 100px, etc.
-               This creates the visible "stack" effect where you see the headers of previous cards.
-            */
-            <div class="career-card" style={`top: calc(5rem + ${index * 1.5}rem);`}>
-                
-                <div class="card-header">
-                    <div class="company-info">
-
-                        <div>
-                            <h3 class="company-name">{job.company}</h3>
-                            <span class="dates">{job.from} — {job.to}</span>
+        {jobs && jobs.map((job, index) => {
+            const bgColor = cardColors[index % cardColors.length];
+            const stickyTop = `calc(5rem + ${index * 6.5}rem)`;
+            return (
+                <div class="career-card" style={`top: ${stickyTop}; background-color: ${bgColor}; z-index: ${index + 1};`}>
+                    <div class="card-header">
+                        <div class="company-info">
+                            {job.logo_image && <img src={job.logo_image} alt="Logo" class="company-logo" />}
+                            <div>
+                                <h3 class="company-name">{job.company}</h3>
+                                <span class="dates">{job.from} — {job.to}</span>
+                            </div>
+                        </div>
+                        <div class="role-info">
+                            <h4 class="job-title">{job.title}</h4>
                         </div>
                     </div>
-                    <div class="role-info">
-                        <h4 class="job-title">{job.title}</h4>
+
+                    <div class="card-body">
+                        {job.description && <p class="description">{job.description}</p>}
+                        {job.bullets && (
+                            <ul class="achievements-list">
+                                {job.bullets.map((b) => <li>{b}</li>)}
+                            </ul>
+                        )}
                     </div>
                 </div>
-
-                <div class="card-body">
-                    {/* Render the Description */}
-                    {job.description && (
-                        <p class="description">{job.description}</p>
-                    )}
-
-                    {/* Render the Bullets */}
-                    {job.bullets && job.bullets.length > 0 && (
-                        <ul class="achievements-list">
-                            {job.bullets.map((bullet) => (
-                                <li>{bullet}</li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-            </div>
-        ))}
+            );
+        })}
     </div>
+
+    {resume_pdf && (
+        <div class="resume-wrapper">
+            <a href={resume_pdf} target="_blank" class="btn-resume">
+                Download Resume to View Full Details 📄
+            </a>
+        </div>
+    )}
+
 </section>
 
 <style>
-/* 🎨 Layout & Spacing */
 .career-section {
-    max-width: 900px;
+    width: 90%;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 4rem 1.5rem;
     position: relative;
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-
-.section-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    color: #1a1a1a;
-}
-
-.section-subtitle {
-    font-size: 1.1rem;
-    color: #666;
-}
-
-/* 🃏 The Stacking Card Magic */
-.timeline-stack {
-    position: relative;
-    /* Sufficient padding at bottom ensures the last card has scroll space */
+    /* Added padding-bottom to ensure button has space */
     padding-bottom: 4rem; 
 }
 
+.section-header { text-align: center; margin-bottom: 4rem; }
+
+.section-title {
+    font-size: var(--text-h1);
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-main);
+    letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+    font-size: var(--text-h4);
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.timeline-stack { position: relative; padding-bottom: 6rem; }
+
 .career-card {
-    position: sticky; /* The magic property */
-    background: white;
+    position: sticky;
     border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 16px;
+    border-radius: var(--radius-card);
     padding: 2.5rem;
-    margin-bottom: 4rem; /* Space between cards in natural flow */
-    box-shadow: 
-        0 -1px 3px rgba(0,0,0,0.02), /* Slight top shadow for stacking depth */
-        0 10px 40px -10px rgba(0,0,0,0.1);
-    
-    /* Ensure cards cover the ones beneath them properly */
+    margin-bottom: 2rem; 
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
     transform-origin: center top;
     transition: transform 0.3s ease;
 }
 
-/* Optional: Slight hover lift */
-.career-card:hover {
-    transform: translateY(-5px);
-}
-
-/* 🖼️ Card Content Styling */
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
     padding-bottom: 1.5rem;
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
     gap: 1rem;
 }
 
-.company-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.company-logo {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-    border-radius: 8px;
-    background: #f9f9f9;
-    padding: 4px;
-}
+.company-info { display: flex; align-items: center; gap: 1rem; }
+.company-logo { width: 48px; height: 48px; object-fit: contain; border-radius: 8px; background: #fff; padding: 4px; }
 
 .company-name {
     margin: 0;
-    font-size: 1.25rem;
+    font-size: var(--text-h3);
     font-weight: 700;
-    color: #333;
+    color: var(--color-text-main);
 }
 
 .dates {
     display: block;
-    font-size: 0.85rem;
-    color: #888;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
     margin-top: 0.25rem;
+    font-weight: 600;
 }
 
 .job-title {
     margin: 0;
-    font-size: 1.1rem;
-    color: #007bff; /* Use your brand color */
-    background: rgba(0, 123, 255, 0.1);
+    font-size: var(--text-h4);
+    color: var(--color-primary-dark);
+    background: rgba(255, 255, 255, 0.5);
     padding: 0.5rem 1rem;
-    border-radius: 100px;
+    border-radius: 50px;
     font-weight: 600;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .description {
-    font-size: 1.05rem;
+    font-size: var(--text-body);
     line-height: 1.6;
-    color: #444;
+    color: var(--color-text-light);
     margin-bottom: 1.5rem;
     font-style: italic;
 }
 
-.achievements-list {
-    padding-left: 1.25rem;
-}
-
+.achievements-list { padding-left: 1.25rem; }
 .achievements-list li {
     margin-bottom: 0.75rem;
-    line-height: 1.5;
-    color: #555;
-    position: relative;
+    line-height: 1.6;
+    font-size: var(--text-body);
+    color: var(--color-text-light);
 }
 
-/* Responsive adjustments */
+/* 👇 NEW STYLES FOR RESUME BUTTON */
+.resume-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 20; /* Ensures it sits above the last sticky card */
+}
+
+.btn-resume {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: var(--text-body);
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+}
+
+.btn-resume:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,123,255,0.4);
+}
+
 @media (max-width: 768px) {
-    .card-header {
-        flex-direction: column;
-    }
-    
-    .role-info {
-        width: 100%;
-    }
-    
-    .job-title {
-        display: inline-block;
-    }
-    
-    .career-card {
-        padding: 1.5rem;
-    }
+    .card-header { flex-direction: column; }
+    .career-card { padding: 1.5rem; }
 }
 </style>

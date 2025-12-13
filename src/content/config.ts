@@ -55,6 +55,7 @@ const careerCollection = defineCollection({
             description: z.string().optional(),
             bullets: z.array(z.string()).optional(),
             logo_image: z.string().optional(),
+            resume_pdf: z.string().optional(),
         })).optional(),
     }),
 });
@@ -72,9 +73,10 @@ const skillsCollection = defineCollection({
 
 // D. EDUCATION & CERTS
 const educationCollection = defineCollection({
-    type: 'data',
+    type: 'content',
     schema: z.object({
         education_entries: z.array(z.object({
+            type: z.string(),
             institution: z.string(),
             degree: z.string(),
             year: z.string(),
@@ -85,7 +87,7 @@ const educationCollection = defineCollection({
 
 // E. TESTIMONIALS
 const testimonialsCollection = defineCollection({
-    type: 'data',
+    type: 'content',
     schema: z.object({
         testimonials_list: z.array(z.object({
             quote: z.string(),

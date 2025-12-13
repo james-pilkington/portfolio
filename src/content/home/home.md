@@ -12,15 +12,13 @@ highlights:
   - title: "Years Experience"
     value: "15+"
     icon: "📅"
-  - title: "Teams Led"
+  - title: "Leadership Exp"
     value: "12+"
     icon: "👥"
-  - title: "Products Launched"
+  - title: "Products/Features Launched"
     value: "50+"
     icon: "🚀"
 
 intro_body: |
   Welcome to my resume website! I’m a results-driven player-coach Manager with a passion for product and customer experience. With over 15 years of experience in client-facing technical roles—five of which have been increasingly focused on product management—I specialize in leading teams, driving product success, and delivering impactful results.
-
-  [PLACEHOLDER TEXT]
 --- 
