@@ -171,7 +171,7 @@ collections:
               - { label: "Provider/Source", name: "provider", widget: "string" }
               - { label: "Link", name: "link", widget: "string", required: false }
           
-          - label: "Fractional Jobs
+          - label: "Fractional Jobs"
             name: "fractional"
             widget: "list"
             fields:

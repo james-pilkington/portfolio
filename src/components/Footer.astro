@@ -1,0 +1,55 @@
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <p class="footer-cta">Let's build something great together.</p>
+        <div class="divider"></div>
+        <p class="footer-credit">Created by James Pilkington &copy; {year}</p>
+    </div>
+</footer>
+
+<style>
+    .site-footer {
+        font-family: var(--font-sans);
+        width: 100%;
+        padding: 3rem 0;
+        background-color: white;
+        border-top: 1px solid rgba(0,0,0,0.05);
+        margin-top: 4rem;
+        text-align: center;
+    }
+
+    .footer-content {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .footer-cta {
+        font-size: var(--text-h3);
+        font-weight: 700;
+        color: var(--color-text-main);
+        margin: 0;
+        letter-spacing: -0.01em;
+    }
+
+    .divider {
+        width: 40px;
+        height: 2px;
+        background-color: var(--color-primary);
+        opacity: 0.5;
+    }
+
+    .footer-credit {
+        font-size: var(--text-sm);
+        color: var(--color-text-muted);
+        margin: 0;
+    }
+</style>
