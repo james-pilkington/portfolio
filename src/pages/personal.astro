@@ -1,0 +1,165 @@
+---
+// src/pages/personal.astro
+import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const personalEntry = await getEntry('personal', 'personal');
+if (!personalEntry) throw new Error('Personal data not found');
+const { data } = personalEntry;
+---
+
+<Layout title="James Pilkington | Personal & Extras">
+    <main class="personal-page">
+        
+        <section class="content-block">
+            <h1 class="page-title">{data.fractional_title}</h1>
+            <div class="fractional-content">
+                <p>{data.fractional_body}</p>
+                <a href="mailto:The.James.Pilkington@gmail.com" class="btn-primary">
+                    Inquire About Availability
+                </a>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="recommendations-section">
+            
+            <div class="rec-column">
+                <h2 class="section-heading">📚 Recommended Reading</h2>
+                <ul class="rec-list">
+                    {data.books && data.books.map(book => (
+                        <li class="rec-item">
+                            <a href={book.link || '#'} target="_blank" class="rec-link">
+                                <span class="item-title">{book.title}</span>
+                                <span class="item-meta">by {book.author}</span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <div class="rec-column">
+                <h2 class="section-heading">🧠 Courses & Blogs</h2>
+                <ul class="rec-list">
+                    {data.courses && data.courses.map(course => (
+                        <li class="rec-item">
+                            <a href={course.link || '#'} target="_blank" class="rec-link">
+                                <span class="item-title">{course.title}</span>
+                                <span class="item-meta">{course.provider}</span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+        </section>
+
+    </main>
+</Layout>
+
+<style>
+/* Reusing global vars */
+.personal-page {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: 4rem; /* Space from header */
+    padding-bottom: 6rem;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.fractional-content p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+    max-width: 800px;
+    white-space: pre-line;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.2s, background 0.2s;
+}
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 4rem 0;
+}
+
+.recommendations-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+.section-heading {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-main);
+}
+
+.rec-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rec-item {
+    margin-bottom: 1rem;
+}
+
+.rec-link {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.rec-link:hover {
+    border-color: var(--color-primary);
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.item-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-text-main);
+    margin-bottom: 0.25rem;
+}
+
+.item-meta {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+@media (max-width: 768px) {
+    .recommendations-section {
+        grid-template-columns: 1fr;
+    }
+}
+</style>

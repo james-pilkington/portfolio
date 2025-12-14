@@ -96,6 +96,30 @@ const testimonialsCollection = defineCollection({
     }),
 });
 
+const personalCollection = defineCollection({
+    type: 'content',
+    schema: z.object({
+        fractional_title: z.string(),
+        fractional_body: z.string(),
+        fractional: z.array(z.object({
+            title: z.string(),
+            company: z.string(),
+            summary: z.string().optional(),
+        })).optional(),
+        books: z.array(z.object({
+            title: z.string(),
+            author: z.string(),
+            link: z.string().optional(),
+            category: z.string().optional(),
+        })).optional(),
+        courses: z.array(z.object({
+            title: z.string(),
+            provider: z.string(),
+            link: z.string().optional(),
+        })).optional(),
+    }),
+});
+
 
 // 3. Export Collections
 // Astro now registers 6 distinct collections for clean separation!
@@ -106,4 +130,5 @@ export const collections = {
     'skills': skillsCollection,
     'education': educationCollection,
     'testimonials': testimonialsCollection,
+    'personal': personalCollection,
 };

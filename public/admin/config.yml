@@ -138,3 +138,43 @@ collections:
             fields:
               - { label: "Quote Body", name: "quote", widget: "text" }
               - { label: "Source/Name", name: "source", widget: "string" }
+
+
+  # F. PERSONAL & EXTRAS (New Section)
+  - name: "personal"
+    label: "F. Personal & Extras"
+    files:
+      - label: "Edit Personal Content"
+        name: "personal_data"
+        file: "src/content/personal/personal.md"
+        fields:
+          # Fractional / Consulting Intro
+          - { label: "Fractional/Consulting Title", name: "fractional_title", widget: "string" }
+          - { label: "Fractional/Consulting Body", name: "fractional_body", widget: "markdown" }
+          
+          # Book Recommendations
+          - label: "Recommended Books"
+            name: "books"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Author", name: "author", widget: "string" }
+              - { label: "Link", name: "link", widget: "string", required: false }
+              - { label: "Category", name: "category", widget: "string", required: false }
+
+          # Courses / Blogs
+          - label: "Courses & Blogs"
+            name: "courses"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Provider/Source", name: "provider", widget: "string" }
+              - { label: "Link", name: "link", widget: "string", required: false }
+          
+          - label: "Fractional Jobs
+            name: "fractional"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Company", name: "company", widget: "string" }
+              - { label: "Summary", name: "summary", widget: "string", required: false }

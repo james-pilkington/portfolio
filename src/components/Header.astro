@@ -1,0 +1,148 @@
+---
+// src/components/Header.astro
+const navLinks = [
+    { name: 'Home', href: '/' },
+    // { name: 'Career', href: '/#career' },
+    // { name: 'Education', href: '/#education' },
+    // { name: 'Testimonials', href: '/#testimonials' },
+    { name: 'Personal & Extras', href: '/personal' }, // The new page
+];
+---
+
+<header class="site-header">
+    <div class="header-container">
+        <a href="/" class="logo">
+            JP<span class="dot">.</span>
+        </a>
+
+        <nav class="desktop-nav">
+            {navLinks.map(link => (
+                <a href={link.href} class="nav-link">{link.name}</a>
+            ))}
+        </nav>
+
+        <button class="mobile-toggle" aria-label="Toggle Menu">
+            ☰
+        </button>
+    </div>
+    
+    <div class="mobile-nav">
+        {navLinks.map(link => (
+            <a href={link.href} class="mobile-link">{link.name}</a>
+        ))}
+    </div>
+</header>
+
+<script>
+    // 1. Sticky Header Logic
+    const header = document.querySelector('.site-header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // 2. Mobile Menu Logic
+    const toggle = document.querySelector('.mobile-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+    
+    toggle.addEventListener('click', () => {
+        mobileNav.classList.toggle('active');
+    });
+</script>
+
+<style>
+    .site-header {
+        position: fixed;
+        top: 0;
+        z-index: 9999;
+        width: 100%;
+        padding: 1.5rem 0;
+        transition: all 0.3s ease;
+        background: transparent; /* Starts transparent */
+    }
+
+    /* The "Scrolled" state adds the glass effect */
+    .site-header.scrolled {
+        padding: 1rem 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+
+    .header-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-family: var(--font-sans);
+        font-weight: 900;
+        font-size: 1.5rem;
+        color: var(--color-text-main);
+        text-decoration: none;
+        letter-spacing: -0.05em;
+    }
+
+    .dot { color: var(--color-primary); }
+
+    .desktop-nav {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: var(--color-text-muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+        color: var(--color-primary);
+    }
+
+    /* Mobile Styles */
+    .mobile-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--color-text-main);
+    }
+
+    .mobile-nav {
+        display: none; /* Hidden by default */
+        background: white;
+        border-bottom: 1px solid #eee;
+        flex-direction: column;
+        padding: 1rem 5%; /* 5% padding matches the container width logic */
+    }
+
+    .mobile-nav.active {
+        display: flex;
+    }
+
+    .mobile-link {
+        padding: 1rem 0;
+        text-decoration: none;
+        color: var(--color-text-main);
+        border-bottom: 1px solid #f9f9f9;
+        font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+        .desktop-nav { display: none; }
+        .mobile-toggle { display: block; }
+    }
+</style>

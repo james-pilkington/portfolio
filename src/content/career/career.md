@@ -57,4 +57,5 @@ jobs:
         cross-functional communication, rollout consistency, and feedback loops
         between CX, product, and engineering.
     logo_image: /images/uploads/funnel-logo.gif
+resume_pdf: "/images/uploads/JamesPilkington_TechProductOps.pdf"
 ---
