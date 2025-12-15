@@ -2,7 +2,6 @@
 // src/components/Hero.astro
 import { getEntry } from 'astro:content';
 
-// 1. Fetch the data
 const homeEntry = await getEntry('home', 'home');
 
 if (!homeEntry) {
@@ -13,7 +12,6 @@ const data = homeEntry.data;
 const {
     full_name, 
     pro_title, 
-    phone, 
     email, 
     location, 
     linkedin_url, 
@@ -22,13 +20,22 @@ const {
     highlights,
     intro_body
 } = data;
+
+// 🧠 Parse the title
+// Format: "[Client-Obsessed, People-First] Product Leader"
+let rotatingWords = ["Client-Obsessed"]; // Default fallback
+let staticTitle = pro_title;
+
+const match = pro_title.match(/^\[(.*?)\]\s*(.*)$/);
+if (match) {
+    rotatingWords = match[1].split(',').map(s => s.trim());
+    staticTitle = match[2];
+}
 ---
 
 <section id="hero" class="hero-section">
-
     <div class="hero-card">
-        
-        <div class="hero-image-col">
+        <div class="hero-image-col" style={`--bg-image: url('${profile_image}');`}>
             {profile_image && (
                 <img 
                     src={profile_image} 
@@ -39,22 +46,29 @@ const {
         </div>
 
         <div class="hero-content-col">
-            
             <div class="hero-header">
                 <h1 class="name">{full_name || "NAME MISSING"}</h1>
-                <p class="title">{pro_title || "TITLE MISSING"}</p>
+                
+                <div class="title-wrapper">
+                    <span class="rotating-stage">
+                        {rotatingWords.map((word, index) => (
+                            <span class={`rotating-word ${index === 0 ? 'active' : ''}`}>
+                                {word}
+                            </span>
+                        ))}
+                    </span>
+                    <span class="static-text">{staticTitle}</span>
+                </div>
+                
                 <div class="location-tag">📍 {location || "Location N/A"}</div>
             </div>
 
             <div class="action-buttons">
-                <a href={`mailto:${email}`} class="btn-connect">
-                    Let's Connect! ✉️
-                </a>
-
+                <a href={`mailto:${email}`} class="btn-connect">Let's Connect! ✉️</a>
                 {linkedin_url && (
                     <a href={linkedin_url} target="_blank" rel="noopener noreferrer" class="btn-linkedin">
                         <img src="/images/uploads/linkedin-logo.png" alt="LinkedIn" class="linkedin-icon" />
-                        </a>
+                    </a>
                 )}
             </div>
 
@@ -80,18 +94,47 @@ const {
     </div>
 </section>
 
+<script>
+    // ⚙️ Vertical Scroll Logic
+    document.addEventListener('DOMContentLoaded', () => {
+        const words = document.querySelectorAll('.rotating-word');
+        if (words.length <= 1) return;
+
+        let currentIndex = 0;
+
+        setInterval(() => {
+            const currentWord = words[currentIndex];
+            // Calculate next index (loop back to 0 at end)
+            const nextIndex = (currentIndex + 1) % words.length;
+            const nextWord = words[nextIndex];
+
+            // 1. Slide current UP and OUT
+            currentWord.classList.remove('active');
+            currentWord.classList.add('exit');
+
+            // 2. Prepare next word (ensure it's below) and Slide UP and IN
+            nextWord.classList.add('active');
+
+            // 3. Cleanup: After animation finishes, remove 'exit' class
+            // so the word resets to the bottom position for its next turn
+            setTimeout(() => {
+                currentWord.classList.remove('exit');
+            }, 600); // Matches CSS transition duration
+
+            currentIndex = nextIndex;
+        }, 3000); // Change every 3 seconds
+    });
+</script>
+
 <style>
 /* 🎨 Layout & Spacing */
 .hero-section {
-    width: 90%; /* Wider to accommodate side-by-side */
+    width: 90%;
     max-width: 1200px;
-    margin: 0rem auto;
-    margin-top: 5rem;
-    padding: 2rem;
-    font-family: sans-serif; 
+    margin: 6rem auto 0 auto;
+    padding: 0;
 }
 
-/* 🃏 Main Card Container */
 .hero-card {
     display: grid;
     grid-template-columns: 350px 1fr; /* Fixed width image, flexible content */
@@ -107,9 +150,9 @@ const {
     -webkit-backdrop-filter: blur(12px); /* Safari support */
     border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle border */
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Soft shadow */
+
 }
 
-/* 🖼️ Left Column: Image */
 .hero-image-col {
     background-color: #f0f4f8; /* Soft background behind image */
     display: flex;
@@ -117,6 +160,7 @@ const {
     justify-content: center;
     padding: 2rem;
     border-right: 1px solid #f0f0f0;
+
 }
 
 .profile-img {
@@ -128,64 +172,99 @@ const {
     border-radius: 50%;
     border: 4px solid white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
 }
 
-/* 📝 Right Column: Content */
 .hero-content-col {
-    padding: 3rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.hero-header {
-    margin-bottom: 1.5rem;
-}
+.hero-header { margin-bottom: 0.75rem; }
 
 .name {
-    font-size: 3rem;
+    font-size: var(--text-hero);
     font-weight: 900;
-    color: #1a1a1a;
+    color: var(--color-text-main);
     margin: 0 0 0.5rem 0;
-    line-height: 1.1;
+    line-height: 1;
+    letter-spacing: -0.02em;
 }
 
-.title {
-    font-size: 1.25rem;
+/* ✨ TITLE WRAPPER */
+.title-wrapper {
+    font-size: var(--text-h2);
     font-weight: 500;
-    color: #555;
-    margin: 0 0 0.5rem 0;
+    color: var(--color-text-muted);
+    margin: 0 0 0.1rem 0;
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping on small mobile */
+    align-items: baseline;
+    gap: 0.35em; /* Space between dynamic and static text */
+}
+
+/* 🎭 THE STAGE: CSS Grid Trick for Fixed Width */
+.rotating-stage {
+    display: inline-grid;
+    vertical-align: bottom;
+    /* This ensures the container height matches the text exactly */
+    height: 1.2em; 
+    overflow: hidden; /* Hides words as they slide out */
+    color: var(--color-primary); /* 🔵 BLUE COLOR HIGHLIGHT */
+    font-weight: 700;
+    text-align: right
+}
+
+/* 🏃‍♂️ THE WORDS: Stacked on top of each other */
+.rotating-word {
+    grid-area: 1 / 1; /* All words occupy the exact same space */
+    opacity: 0;
+    transform: translateY(100%); /* Start position: Below */
+    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.6s ease;
+    white-space: nowrap;
+}
+
+/* State: Active (Visible) */
+.rotating-word.active {
+    opacity: 1;
+    transform: translateY(0); /* Center */
+}
+
+/* State: Exit (Leaving Upwards) */
+.rotating-word.exit {
+    opacity: 0;
+    transform: translateY(-100%); /* Move Up */
 }
 
 .location-tag {
-    font-size: 0.9rem;
+    font-size: var(--text-body);
     color: #777;
     font-weight: 600;
 }
 
-/* 🔘 Action Buttons */
 .action-buttons {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 2rem;
-    border-radius: 50%;
-
+    margin-bottom: 0.5rem;
 }
 
 .btn-connect {
-    background-color: #007bff;
+    background-color: var(--color-primary);
     color: white;
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 2rem;
     border-radius: 50px;
     font-weight: 700;
+    font-size: var(--text-body);
     text-decoration: none;
     transition: background 0.2s, transform 0.2s;
     box-shadow: 0 4px 6px rgba(0,123,255,0.2);
 }
 
 .btn-connect:hover {
-    background-color: #0056b3;
+    background-color: var(--color-primary-dark);
     transform: translateY(-2px);
     text-decoration: none;
 }
@@ -194,53 +273,53 @@ const {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s;
-    border-radius: 50%;
+    width: 50px;  
+    height: 50px; 
+    background: #f0f0f0; 
+    border-radius: 50%; 
+    transition: transform 0.2s, background 0.2s;
 }
 
 .btn-linkedin:hover {
     transform: scale(1.1);
+    background: #e0e0e0;
 }
 
-.linkedin-icon {
-    width: 40px;
-    height: 40px;
-    object-fit: stretch;
-}
+.linkedin-icon { width: 24px; height: 24px; object-fit: cover; }
 
 .divider {
     border: none;
     border-top: 1px solid #eee;
-    margin: 0 0 2rem 0;
     width: 100%;
 }
 
-/* 📖 Intro Text */
 .introduction h2 {
-    font-size: 1.5rem;
+    font-size: var(--text-h2);
+    font-weight: 800;
     margin-top: 0;
-    color: #333;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-main);
 }
 
 .intro-text {
-    line-height: 1.6;
-    color: #555;
+    font-size: var(--text-h4);
+    line-height: 1.3;
+    color: var(--color-text-light);
     margin-bottom: 2rem;
-    white-space: pre-line; /* Respects paragraphs in intro_body */
+    white-space: pre-line;
 }
 
-/* 📊 Highlight Cards (Refined for Card Layout) */
 .highlights-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Force 3 columns if possible */
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
 }
 
 .highlight-card {
-    background: #f8f9fa;
+    background: var(--color-bg-offset);
     border: 1px solid #eee;
-    padding: 1rem;
-    border-radius: 12px;
+    padding: 1.15rem;
+    border-radius: var(--radius-sm);
     text-align: center;
     transition: transform 0.2s;
 }
@@ -249,55 +328,34 @@ const {
     transform: translateY(-3px);
     background: #fff;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-color: #007bff;
+    border-color: var(--color-primary);
 }
 
-.card-icon {
-    font-size: 1.5rem;
-    display: block;
-    margin-bottom: 0.25rem;
-}
+.card-icon { font-size: 1.75rem; display: block; margin-bottom: 0.1rem; }
 
 .card-value {
-    font-size: 1.5rem; /* Slightly smaller to fit */
+    font-size: 1.5rem;
     font-weight: 800;
-    color: #007bff;
+    color: var(--color-primary);
     margin: 0;
 }
 
 .card-title {
-    font-size: 0.85rem;
-    color: #666;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
     margin: 0.25rem 0 0 0;
     font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-/* 📱 Responsive Adjustments */
 @media (max-width: 900px) {
-    .hero-card {
-        grid-template-columns: 1fr; /* Stack vertically on tablet/mobile */
-        text-align: center;
-    }
-
-    .hero-image-col {
-        border-right: none;
-        border-bottom: 1px solid #f0f0f0;
-        padding: 3rem 1rem;
-    }
-
-    .hero-content-col {
-        padding: 2rem;
-        align-items: center; /* Center align flex items */
-    }
-
-    .action-buttons {
-        justify-content: center;
-    }
-
-    .highlights-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        width: 100%;
-    }
+    .hero-card { grid-template-columns: 1fr; text-align: center; }
+    .hero-image-col { height: 300px; }
+    .profile-img { width: 200px; }
+    .hero-content-col { padding: 2rem; align-items: center; }
+    .title-wrapper { justify-content: center; } /* Center text on mobile */
+    .action-buttons { justify-content: center; }
+    .highlights-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); width: 100%; }
 }
 </style>

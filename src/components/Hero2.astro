@@ -1,0 +1,369 @@
+
+
+/* 🃏 Main Card Container */
+
+.hero-card {
+    display: grid;
+    grid-template-columns: 350px 1fr; /* Fixed width image, flexible content */
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1); /* Soft shadow */
+    border: 1px solid rgba(0,0,0,0.05);
+    overflow: hidden; /* Ensures image doesn't bleed out corners */
+
+     /* ✨ 1. GLASSMORPHISM EFFECT */
+    background: rgba(255, 255, 255, 0.65); /* Semi-transparent white */
+    backdrop-filter: blur(12px); /* The "frosted glass" blur */
+    -webkit-backdrop-filter: blur(12px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle border */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); /* Soft shadow */
+
+}
+
+
+
+/* 🖼️ Left Column: Image */
+
+.hero-image-col {
+    background-color: #f0f4f8; /* Soft background behind image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border-right: 1px solid #f0f0f0;
+
+}
+
+
+
+.profile-img {
+    width: 100%;
+    height: auto;
+    max-width: 280px; /* Controls max size of image */
+    aspect-ratio: 1 / 1; /* Keeps it square-ish */
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+}
+
+
+
+
+
+.name {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #1a1a1a;
+
+    margin: 0 0 0.5rem 0;
+
+    line-height: 1.1;
+
+}
+
+
+
+.title {
+
+    font-size: 1.25rem;
+
+    font-weight: 500;
+
+    color: #555;
+
+    margin: 0 0 0.5rem 0;
+
+}
+
+
+
+.location-tag {
+
+    font-size: 0.9rem;
+
+    color: #777;
+
+    font-weight: 600;
+
+}
+
+
+
+/* 🔘 Action Buttons */
+
+.action-buttons {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-bottom: 2rem;
+
+    border-radius: 50%;
+
+
+
+}
+
+
+
+.btn-connect {
+
+    background-color: #007bff;
+
+    color: white;
+
+    padding: 0.75rem 1.5rem;
+
+    border-radius: 50px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: background 0.2s, transform 0.2s;
+
+    box-shadow: 0 4px 6px rgba(0,123,255,0.2);
+
+}
+
+
+
+.btn-connect:hover {
+
+    background-color: #0056b3;
+
+    transform: translateY(-2px);
+
+    text-decoration: none;
+
+}
+
+
+
+.btn-linkedin {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: transform 0.2s;
+
+    border-radius: 50%;
+
+}
+
+
+
+.btn-linkedin:hover {
+
+    transform: scale(1.1);
+
+}
+
+
+
+.linkedin-icon {
+
+    width: 40px;
+
+    height: 40px;
+
+    object-fit: stretch;
+
+}
+
+
+
+.divider {
+
+    border: none;
+
+    border-top: 1px solid #eee;
+
+    margin: 0 0 2rem 0;
+
+    width: 100%;
+
+}
+
+
+
+/* 📖 Intro Text */
+
+.introduction h2 {
+
+    font-size: 1.5rem;
+
+    margin-top: 0;
+
+    color: #333;
+
+}
+
+
+
+.intro-text {
+
+    line-height: 1.6;
+
+    color: #555;
+
+    margin-bottom: 2rem;
+
+    white-space: pre-line; /* Respects paragraphs in intro_body */
+
+}
+
+
+
+/* 📊 Highlight Cards (Refined for Card Layout) */
+
+.highlights-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr); /* Force 3 columns if possible */
+
+    gap: 1rem;
+
+}
+
+
+
+.highlight-card {
+
+    background: #f8f9fa;
+
+    border: 1px solid #eee;
+
+    padding: 1rem;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    transition: transform 0.2s;
+
+}
+
+
+
+.highlight-card:hover {
+
+    transform: translateY(-3px);
+
+    background: #fff;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
+    border-color: #007bff;
+
+}
+
+
+
+.card-icon {
+
+    font-size: 1.5rem;
+
+    display: block;
+
+    margin-bottom: 0.25rem;
+
+}
+
+
+
+.card-value {
+
+    font-size: 1.5rem; /* Slightly smaller to fit */
+
+    font-weight: 800;
+
+    color: #007bff;
+
+    margin: 0;
+
+}
+
+
+
+.card-title {
+
+    font-size: 0.85rem;
+
+    color: #666;
+
+    margin: 0.25rem 0 0 0;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+}
+
+
+
+/* 📱 Responsive Adjustments */
+
+@media (max-width: 900px) {
+
+    .hero-card {
+
+        grid-template-columns: 1fr; /* Stack vertically on tablet/mobile */
+
+        text-align: center;
+
+    }
+
+
+
+    .hero-image-col {
+
+        border-right: none;
+
+        border-bottom: 1px solid #f0f0f0;
+
+        padding: 3rem 1rem;
+
+    }
+
+
+
+    .hero-content-col {
+
+        padding: 2rem;
+
+        align-items: center; /* Center align flex items */
+
+    }
+
+
+
+    .action-buttons {
+
+        justify-content: center;
+
+    }
+
+
+
+    .highlights-grid {
+
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+
+        width: 100%;
+
+    }
+
+}
+
+</style>
+

@@ -1,0 +1,256 @@
+---
+// src/pages/projects.astro
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// 1. Fetch Projects
+const projects = await getCollection('projects');
+
+// 2. Sort by Date (Newest First)
+const sortedProjects = projects.sort((a, b) => {
+    return new Date(b.data.date || 0).getTime() - new Date(a.data.date || 0).getTime();
+});
+---
+
+<Layout title="James Pilkington | Projects">
+    <main class="projects-page">
+        
+        <section class="page-header">
+            <h1 class="section-title">Portfolio Projects</h1>
+            <p class="section-subtitle">A collection of technical builds, product launches, and experiments.</p>
+        </section>
+
+        <div class="projects-grid">
+            {sortedProjects.map(async (project) => {
+                const { Content } = await project.render();
+                return (
+                    <article class="project-card">
+                        
+                        {/* Image Section (Placeholder logic included if no image) */}
+                        <div class="card-image">
+                            {project.data.featured_image ? (
+                                <img src={project.data.featured_image.src} alt={project.data.title} loading="lazy" />
+                            ) : (
+                                <div class="placeholder-img">🚀</div>
+                            )}
+                        </div>
+
+                        <div class="card-content">
+                            <div class="card-header-group">
+                                <h3 class="project-title">{project.data.title}</h3>
+                                {project.data.date && (
+                                    <span class="project-date">
+                                        {new Date(project.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Render tags if they exist */}
+                            {project.data.tags && (
+                                <div class="tags-list">
+                                    {project.data.tags.map(tag => (
+                                        <span class="tag">{tag}</span>
+                                    ))}
+                                </div>
+                            )}
+
+                            <div class="project-body">
+                                <Content />
+                            </div>
+
+                            {/* Footer with Link */}
+                            {project.data.example_url && (
+                                <div class="card-footer">
+                                    <a href={project.data.example_url} target="_blank" class="btn-demo">
+                                        View Live Demo &rarr;
+                                    </a>
+                                </div>
+                            )}
+                        </div>
+                    </article>
+                );
+            })}
+        </div>
+
+    </main>
+</Layout>
+
+<style>
+/* 🎨 Layout */
+.projects-page {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 6rem; /* Account for fixed header */
+    padding-bottom: 6rem;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: var(--text-hero);
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-main);
+    letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+    font-size: var(--text-h2);
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* 🏗️ Grid System */
+.projects-grid {
+    display: grid;
+    /* Responsive columns: At least 350px wide, fitting as many as possible */
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2.5rem;
+}
+
+/* 🃏 Card Styling (Glassmorphism matched) */
+.project-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    
+    /* Glass Effect */
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-primary);
+}
+
+/* 🖼️ Card Image */
+.card-image {
+    height: 200px;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-bg-offset);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.project-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.placeholder-img {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    opacity: 0.5;
+}
+
+/* 📝 Content Area */
+.card-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Pushes footer down */
+}
+
+.card-header-group {
+    margin-bottom: 1rem;
+}
+
+.project-title {
+    font-size: var(--text-h3);
+    font-weight: 800;
+    color: var(--color-text-main);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+}
+
+.project-date {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* 🏷️ Tags */
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tag {
+    font-size: var(--text-xs);
+    background: rgba(0, 123, 255, 0.1);
+    color: var(--color-primary-dark);
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-weight: 700;
+}
+
+/* 📄 Body Text */
+.project-body {
+    font-size: var(--text-body);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Make links in the Markdown body stand out */
+.project-body :global(a) {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+.project-body :global(a:hover) {
+    text-decoration: underline;
+}
+
+/* 🦶 Footer / Button */
+.card-footer {
+    margin-top: auto; /* Pushes to bottom of card */
+}
+
+.btn-demo {
+    display: inline-block;
+    background-color: var(--color-text-main);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-demo:hover {
+    background-color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>

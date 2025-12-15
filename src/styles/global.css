@@ -5,11 +5,11 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   /* 📏 Font Sizes */
-  --text-hero: 3.5rem;    /* Hero Name */
-  --text-h1: 2.5rem;      /* Section Titles */
+  --text-hero: 2.5rem;    /* Hero Name */
+  --text-h1: 2rem;      /* Section Titles */
   --text-h2: 1.5rem;      /* Column Headers / Sub-headers */
-  --text-h3: 1.25rem;     /* Card Titles (Company/Degree) */
-  --text-h4: 1.125rem;    /* Job Titles / Subtitles */
+  --text-h3: 1rem;     /* Card Titles (Company/Degree) */
+  --text-h4: 1rem;    /* Job Titles / Subtitles */
   --text-body: 1rem;      /* Standard Body Text */
   --text-sm: 0.875rem;    /* Meta data (Dates, Locations) */
   --text-xs: 0.75rem;     /* Very small tags */

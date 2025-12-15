@@ -10,7 +10,7 @@ const projectCollection = defineCollection({
         date: z.date().optional(),
         slug: z.string().optional(),
         featured_image: image().optional(), // This image is for the project card on the homepage
-        
+        example_url: z.string().url().optional(),
         tags: z.array(z.string()).optional(),
         is_featured: z.boolean().default(false), 
     }),
@@ -55,8 +55,8 @@ const careerCollection = defineCollection({
             description: z.string().optional(),
             bullets: z.array(z.string()).optional(),
             logo_image: z.string().optional(),
-            resume_pdf: z.string().optional(),
         })).optional(),
+        resume_pdf: z.string().optional(),
     }),
 });
 
@@ -111,11 +111,13 @@ const personalCollection = defineCollection({
             author: z.string(),
             link: z.string().optional(),
             category: z.string().optional(),
+            image: z.string().optional(), // 👈 Add this
         })).optional(),
         courses: z.array(z.object({
             title: z.string(),
             provider: z.string(),
             link: z.string().optional(),
+            image: z.string().optional(), // 👈 Add this
         })).optional(),
     }),
 });
