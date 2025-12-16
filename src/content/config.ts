@@ -9,7 +9,7 @@ const projectCollection = defineCollection({
         title: z.string().max(60, 'Title should be under 60 characters.'),
         date: z.date().optional(),
         slug: z.string().optional(),
-        featured_image: image().optional(), // This image is for the project card on the homepage
+        featured_image: z.string().optional(), // This image is for the project card on the homepage
         example_url: z.string().url().optional(),
         tags: z.array(z.string()).optional(),
         is_featured: z.boolean().default(false), 
