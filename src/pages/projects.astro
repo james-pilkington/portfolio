@@ -1,6 +1,7 @@
 ---
 // src/pages/projects.astro
 import Layout from '../layouts/Layout.astro';
+import Welcome from '../components/Welcome.astro';
 import { getCollection } from 'astro:content';
 
 // 1. Fetch Projects
@@ -13,6 +14,7 @@ const sortedProjects = projects.sort((a, b) => {
 ---
 
 <Layout title="James Pilkington | Projects">
+    <Welcome />
     <main class="projects-page">
         
         <section class="page-header">
