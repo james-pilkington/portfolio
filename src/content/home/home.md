@@ -1,6 +1,6 @@
 --- 
 full_name: "James Pilkington"
-pro_title: "[Client-Obsessed, People-First, AI-Driven] Product & Implementation Leader"
+pro_title: "[Client-Obsessed, People-First, AI-Enabled, Systems-Oriented, Data-Driven, Execution-Focused] Product & Implementation Leader"
 email: "The.James.Pilkington@gmail.com"
 phone: "6174538734"
 location: "Boston, MA"
@@ -9,21 +9,21 @@ intro_headline: "Hello! I'm James"
 profile_image: "/images/uploads/james.png"
 
 highlights:
-  - title: "Years Experience"
+  - title: "Years Product, Ops & Implementation"
     value: "15+"
     icon: "📅"
-  - title: "Leadership Exp"
+  - title: "Years leading & scaling teams"
     value: "12+"
     icon: "👥"
-  - title: "Products/Features Launched"
-    value: "50+"
+  - title: "Products/Features Shipped"
+    value: "100+"
     icon: "🚀"
 
 intro_body: |
-  Welcome to my portfolio website! With over 15 years leading teams in client-facing, technical rols I have a passion for learning and continued development.  A strong system-thinker with a strength for delivering in a Prouct Ops function
-  
-  To strengthen my technical and UI skills I creating this website to showcase my achievements over the years.
-  
-  Take a look, I would love to connect about any opportunities to work together, or even if you have any recomendations for a good book or course I should check out!
+  I specialize in building scalable Product Ops foundations and turning complex enterprise needs into measurable outcomes. I’ve led 0→1 product launches, influenced multi-million dollar revenue, and partnered with executive teams to improve how products are built, launched, and adopted. My strength lies in systems thinking, people leadership, and using data to drive clarity and momentum across teams.
+
+  This site showcases selected projects and experiments I’ve built to sharpen my technical, AI, and UI skills, and to demonstrate how I think about product problems end to end.
+
+  If you’re interested in Product Ops, product leadership, or building scalable systems that serve both customers and teams, I’d love to connect. And if you have a great book or course recommendation, I’m always learning.
   
 --- 
