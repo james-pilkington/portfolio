@@ -2,14 +2,13 @@
 title: AI-Powered Continuous Changelog Agent
 slug: AI_CICD
 date: 2026-01-31T07:10:00.000-05:00
-featured_image: /images/uploads/cicdworkflow.png
 tags:
   - Product Ops
   - CI/CD Automation
   - LLM / OpenAI
   - Workflow Improvement
 is_featured: false
-example_url: www.example.com
+example_url: https://www.example.com/
 ---
 I designed and implemented a real-time communication bridge between Engineering and Go-To-Market (GTM) teams. By integrating GitHub webhooks with an LLM-powered analysis layer, I automated the translation of raw code commits into commercially readable updates. This system solved the "silent shipping" problem, ensuring Support and CX teams were instantly aware of minor updates without requiring manual input from Product Managers.
 

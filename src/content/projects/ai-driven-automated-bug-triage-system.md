@@ -2,7 +2,6 @@
 title: AI-Driven Automated Bug Triage System
 slug: Bug-Triage
 date: 2023-01-01T00:00:00.000-05:00
-featured_image: /images/uploads/process.png
 tags:
   - Technical Product Management
   - Workflow Automation
@@ -12,7 +11,7 @@ tags:
   - Prompt Engineering
   - Product Ops
 is_featured: false
-example_url: www.url.com
+example_url: https://www.example.com/
 ---
 I architected and deployed an autonomous quality assurance agent designed to eliminate the administrative bottleneck of bug reporting. Integrating OpenAI’s LLM capabilities with Zapier workflow automation, this system acts as a first-line triage engineer, enforcing strict quality standards on ticket inputs and autonomously managing the incident lifecycle to protect developer focus.
 
