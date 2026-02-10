@@ -2,6 +2,7 @@
 title: AI-Driven Automated Bug Triage System
 slug: Bug-Triage
 date: 2023-01-01T00:00:00.000-05:00
+featured_image: /images/uploads/process.png
 tags:
   - Technical Product Management
   - Workflow Automation

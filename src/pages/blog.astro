@@ -1,0 +1,206 @@
+---
+// src/pages/blog.astro
+import Layout from '../layouts/Layout.astro';
+import Welcome from '../components/Welcome.astro'; // Optional: keep if you want the header
+import '../styles/global.css';
+import Parser from 'rss-parser';
+
+// 1. SETUP: Replace this with your actual Substack URL
+const SUBSTACK_URL = 'https://aigile.substack.com/feed';
+
+// 2. FETCH DATA: This happens at build time
+const parser = new Parser();
+let posts = [];
+
+try {
+  const feed = await parser.parseURL(SUBSTACK_URL);
+  
+  posts = feed.items.map((item) => {
+    // 3. IMAGE EXTRACTION MAGIC
+    // Substack RSS doesn't always have a clear 'image' field. 
+    // We look for an "enclosure" (cover image) OR regex the content for the first <img> tag.
+    let heroImage = item.enclosure?.url || null;
+
+    if (!heroImage && item['content:encoded']) {
+      const imgMatch = item['content:encoded'].match(/src="([^"]+)"/);
+      if (imgMatch) heroImage = imgMatch[1];
+    }
+
+    // Clean up the excerpt (remove HTML tags for clean text)
+    const cleanSnippet = item.contentSnippet 
+      ? item.contentSnippet.substring(0, 150) + '...' 
+      : '';
+
+    return {
+      title: item.title,
+      link: item.link,
+      pubDate: new Date(item.pubDate).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      }),
+      image: heroImage,
+      snippet: cleanSnippet
+    };
+  });
+} catch (error) {
+  console.error('Error fetching Substack feed:', error);
+}
+---
+
+<Layout title="James Pilkington | Blog">
+    <Welcome />
+    
+    <main class="blog-page">
+        <section class="content-block">
+            <h1 class="page-title">Writing & Thoughts</h1>
+            <p class="intro-text">
+                Articles on product, prodops, leadership, and tech. 
+                Fetched directly from my <a href="https://aigile.substack.com/" target="_blank">(AI)gile Substack</a>.
+            </p>
+        </section>
+
+        <hr class="divider">
+
+        <section class="blog-grid">
+            {posts.map((post) => (
+                <a href={post.link} target="_blank" class="blog-card">
+                    <div class="card-image">
+                        {post.image ? (
+                            <img src={post.image} alt={post.title} loading="lazy" />
+                        ) : (
+                            <div class="placeholder">✍️</div> 
+                        )}
+                    </div>
+                    <div class="card-content">
+                        <span class="card-meta">{post.pubDate}</span>
+                        <h3 class="card-title">{post.title}</h3>
+                        <p class="card-excerpt">{post.snippet}</p>
+                        <span class="read-more">Read on Substack &rarr;</span>
+                    </div>
+                </a>
+            ))}
+        </section>
+    </main>
+</Layout>
+
+<style>
+/* --- Page Structure (Reusing your existing vars) --- */
+.blog-page {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 4rem;
+    padding-bottom: 6rem;
+}
+
+.page-title {
+    font-size: var(--text-hero, 2.5rem);
+    font-weight: 800;
+    color: var(--color-text-main, #333);
+    margin-bottom: 1rem;
+}
+
+.intro-text {
+    font-size: 1.1rem;
+    color: var(--color-text-light, #666);
+    margin-bottom: 2rem;
+}
+
+.intro-text a {
+    color: var(--color-primary, #0070f3);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 3rem 0;
+}
+
+/* --- GRID LAYOUT --- */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* --- CARD STYLES (Adapted from your carousel-card) --- */
+.blog-card {
+    display: flex; 
+    flex-direction: column;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: var(--radius-sm, 8px);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    overflow: hidden;
+    height: 100%; /* Ensures all cards in a row match height */
+}
+
+.blog-card:hover {
+    border-color: var(--color-primary, #0070f3);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Image */
+.card-image {
+    width: 100%;
+    height: 200px; /* Fixed height for consistency */
+    background: #f9f9f9;
+    overflow: hidden;
+    border-bottom: 1px solid #eee;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* "Cover" crops nicely for blog thumbnails */
+}
+
+.placeholder { font-size: 3rem; opacity: 0.2; }
+
+/* Content */
+.card-content {
+    padding: 1.5rem;
+    display: flex; 
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-meta {
+    font-size: 0.8rem;
+    color: var(--color-text-muted, #888);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-text-main, #222);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.card-excerpt {
+    font-size: 0.95rem;
+    color: var(--color-text-light, #555);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limits excerpt to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.read-more {
+    margin-top: auto; /* Pushes to bottom */
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-primary, #0070f3);
+}
+</style>

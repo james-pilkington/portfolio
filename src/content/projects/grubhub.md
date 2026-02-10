@@ -2,6 +2,7 @@
 title: "Grubhub Campus POS Migration"
 date: 2023-05-01
 slug: "grubhub-pos"
+featured_image: /images/uploads/grubhubpos.jpg
 example_url: "https://about.grubhub.com/news/grubhub-revamps-ultimate-kiosks/"
 tags: ["Product Management", "Hardware", "Android", "P2PE"]
 is_featured: true

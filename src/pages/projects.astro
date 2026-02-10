@@ -31,7 +31,8 @@ const sortedProjects = projects.sort((a, b) => {
                         {/* Image Section (Placeholder logic included if no image) */}
                         <div class="card-image">
                             {project.data.featured_image ? (
-                                <img src={project.data.featured_image.src} alt={project.data.title} loading="lazy" />
+                                //<img src={project.data.featured_image.src} alt={project.data.title} loading="lazy" />
+                                <img src={project.data.featured_image} alt={project.data.title} loading="lazy" />
                             ) : (
                                 <div class="placeholder-img">🚀</div>
                             )}

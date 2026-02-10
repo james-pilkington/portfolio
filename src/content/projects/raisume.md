@@ -3,6 +3,7 @@ title: "Raisume.xyz - Job Application Tracker"
 date: 2024-01-15
 slug: "raisume"
 example_url: "https://raisume.xyz" 
+featured_image: /images/uploads/raisume.jpg
 tags: ["React", "Material-UI", "Firebase", "D3.js", "OpenAI"]
 is_featured: true
 ---

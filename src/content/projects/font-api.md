@@ -2,6 +2,7 @@
 title: "Font API Webapp"
 date: 2023-11-20
 slug: "font-api"
+featured_image: /images/uploads/monotype.png
 example_url: "https://github.com/james-pilkington/MT-API"
 tags: ["API Integration", "Frontend", "Tools"]
 is_featured: false

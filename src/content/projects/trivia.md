@@ -2,6 +2,7 @@
 title: "AI Powered Trivia Games"
 date: 2023-09-10
 slug: "ai-trivia"
+featured_image: /images/uploads/aitrivia.jpg
 example_url: "https://github.com/james-pilkington/trivia.git"
 tags: ["Node.js", "Firebase Functions", "Firestore", "HTML/CSS"]
 is_featured: false
