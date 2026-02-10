@@ -2,6 +2,7 @@
 title: AI-Powered Continuous Changelog Agent
 slug: AI_CICD
 date: 2026-01-31T07:10:00.000-05:00
+featured_image: /images/uploads/cicdworkflow.png
 tags:
   - Product Ops
   - CI/CD Automation
